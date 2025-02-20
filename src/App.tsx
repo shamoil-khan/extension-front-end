@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { lazy, Suspense } from "react";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { ProtectRoute } from "./components/auth/ProtectRoute";
+const Pricing = lazy(() => import("./pages/pricing/Pricing"));
+const Login = lazy(() => import("./pages/login/Login"));
+import LayoutLoader from "./components/LayoutLoader"
+import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/dashborad/Dashborad";
 function App() {
-  const [count, setCount] = useState(0)
+
+
+  const user =[{}]
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Suspense fallback={<LayoutLoader />}>
+        <Routes>
+          <Route
+            element={
+            
+                <ProtectRoute user={user} />
+              
+            }
+          >
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/profile" element={<Dashboard />} />
+          </Route>
+          <Route
+            path="/login"
+            element={
+            <ProtectRoute user={!user} redirect="/">
+                <Login />
+              </ProtectRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
