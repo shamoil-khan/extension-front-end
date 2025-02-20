@@ -7,6 +7,7 @@ const LoginPage: React.FC = () => {
       <div className="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg">
         <h3 className="text-2xl font-bold text-center mb-4">Login to Your Account</h3>
         {/* <SignIn /> */}
+        
       </div>
     </div>
   )
