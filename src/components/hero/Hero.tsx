@@ -17,6 +17,7 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
   return (
     <motion.section
       variants={fadeInUp}
+      id="home"
       initial="initial"
       animate="animate" // Always animate on load
       className={`min-h-screen flex items-center justify-center pt-24 transition-colors duration-300 backdrop-blur-sm overflow-x-hidden ${
